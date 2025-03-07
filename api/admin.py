@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.peca import peca
+from .models.peca import Peca
 
 # Register your models here.
-admin.site.register(peca)
+admin.site.register(Peca)
