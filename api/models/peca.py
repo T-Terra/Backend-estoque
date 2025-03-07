@@ -6,9 +6,7 @@ class Peca(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=300)
     code = models.CharField(max_length=120, unique=True)
-    amount = models.IntegerField(
-        validators=[MinValueValidator(0)]
-    )
+    amount = models.IntegerField(validators=[MinValueValidator(0)])
 
     class Meta:
         verbose_name = 'Peça'
