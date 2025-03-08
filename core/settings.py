@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -116,6 +117,13 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',  # Define o JWT como método de autenticação
     ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Tempo de expiração do Access Token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Tempo de expiração do Refresh Token
+    'ROTATE_REFRESH_TOKENS': False,                   # Se o refresh token deve ser renovado a cada uso
+    'BLACKLIST_AFTER_ROTATION': True,                 # Se o refresh token deve ser invalidado após renovação
 }
 
 
