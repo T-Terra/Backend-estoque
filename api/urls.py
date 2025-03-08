@@ -1,4 +1,4 @@
 from django.urls import path
-from .views.peca import PecaAdd
+from .views.peca import PecaList
 
-urlpatterns = [path('peca/add/', PecaAdd, name='addpeca')]
+urlpatterns = [path('peca/list/', PecaList, name='pecalist')]
