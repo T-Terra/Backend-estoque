@@ -1,7 +1,8 @@
-from .views.peca import PecaViewSet
+from .views.peca import PecaViewSet, AuthenticationJwt
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'pecas', PecaViewSet)
+router.register(r'api/pecas', PecaViewSet)
+router.register(r'api/auth', AuthenticationJwt, basename='auth')
 
 urlpatterns = router.urls
