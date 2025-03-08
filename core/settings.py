@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'api',
 ]
 
@@ -120,10 +121,17 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Tempo de expiração do Access Token
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Tempo de expiração do Refresh Token
-    'ROTATE_REFRESH_TOKENS': False,                   # Se o refresh token deve ser renovado a cada uso
-    'BLACKLIST_AFTER_ROTATION': True,                 # Se o refresh token deve ser invalidado após renovação
+    'ACCESS_TOKEN_LIFETIME': timedelta(
+        minutes=5
+    ),  # Tempo de expiração do Access Token
+    'REFRESH_TOKEN_LIFETIME': timedelta(
+        days=1
+    ),  # Tempo de expiração do Refresh Token
+    'ROTATE_REFRESH_TOKENS': True,  # Gera um novo Refresh Token a cada renovação
+    'BLACKLIST_AFTER_ROTATION': True,  # Adiciona o token antigo à blacklist
+    'ALGORITHM': 'HS256',
+    # 'SIGNING_KEY': 'seu_segredo_super_secreto',
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 
