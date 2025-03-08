@@ -1,4 +1,7 @@
-from django.urls import path
-from .views.peca import PecaList
+from .views.peca import PecaViewSet
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [path('peca/list/', PecaList, name='pecalist')]
+router = DefaultRouter()
+router.register(r'pecas', PecaViewSet)
+
+urlpatterns = router.urls

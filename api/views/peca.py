@@ -1,13 +1,11 @@
-from django.http import JsonResponse
 from ..serializers.serializer import PecaSerializer
 from ..models.peca import Peca
+from rest_framework import viewsets
 
 
 """Rotas da api"""
 
 
-def PecaList(req):
-    if req.method == 'GET':
-        queryDB = Peca.objects.all()
-        serializer = PecaSerializer(queryDB, many=True)
-        return JsonResponse(serializer.data, safe=False)
+class PecaViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Peca.objects.all()
+    serializer_class = PecaSerializer
