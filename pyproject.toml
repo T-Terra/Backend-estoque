@@ -19,9 +19,9 @@ dependencies = [
 [tool.poetry]
 
 [tool.poetry.group.dev.dependencies]
-blue = "^0.9.1"
 mkdocs = "^1.6.1"
 pip-audit = "^2.8.0"
+black = "^25.1.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -5,4 +5,4 @@ from api.models.peca import Peca
 class PecaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Peca
-        fields = '__all__'
+        fields = "__all__"

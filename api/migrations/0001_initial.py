@@ -12,26 +12,24 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='peca',
+            name="peca",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
-                ('name', models.CharField(max_length=255)),
-                ('description', models.CharField(max_length=300)),
-                ('code', models.CharField(max_length=120, unique=True)),
+                ("name", models.CharField(max_length=255)),
+                ("description", models.CharField(max_length=300)),
+                ("code", models.CharField(max_length=120, unique=True)),
                 (
-                    'amount',
+                    "amount",
                     models.IntegerField(
-                        validators=[
-                            django.core.validators.MinValueValidator(0)
-                        ]
+                        validators=[django.core.validators.MinValueValidator(0)]
                     ),
                 ),
             ],
