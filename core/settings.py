@@ -34,6 +34,13 @@ ALLOWED_HOSTS = []
 
 APPEND_SLASH = False
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Se estiver rodando React localmente
+    "http://127.0.0.1:5173",  # Alternativa para localhost
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,12 +53,14 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
     "api",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -115,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",  # Define o JWT como método de autenticação
+        "api.auth.auth_custom.JWTAuthenticationDefault",  # Define o JWT como método de autenticação
     ),
 }
 

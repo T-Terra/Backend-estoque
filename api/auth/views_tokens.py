@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import viewsets, status
 
@@ -14,11 +15,12 @@ from rest_framework import viewsets, status
 
 class AuthenticationJwt(viewsets.ViewSet):
     permission_classes = [AllowAny]
+    authentication_classes = [JWTAuthentication]
 
     def create(self, request):
         """
         Endpoint para autenticação e geração de JWT.
-        """
+        """        
         username = request.data.get("username")
         password = request.data.get("password")
 
@@ -47,7 +49,7 @@ class AuthenticationJwt(viewsets.ViewSet):
                 value=access_token,
                 httponly=True,
                 secure=True,
-                samesite="Strict",
+                samesite="None", # "Strict"
                 max_age=3600,  # 1 hora de expiração
             )
             res.set_cookie(
@@ -55,7 +57,7 @@ class AuthenticationJwt(viewsets.ViewSet):
                 value=refresh_token,
                 httponly=True,
                 secure=True,
-                samesite="Strict",
+                samesite="None", # "Strict"
                 max_age=3600 * 24,  # 1 dia de expiração
             )
 

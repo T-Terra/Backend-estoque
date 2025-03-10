@@ -1,3 +1,4 @@
+from api.auth.auth_custom import JWTAuthenticationDefault
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 
@@ -13,4 +14,5 @@ from ..auth.permissions import ApiAccessPermission
 class PecaViewSet(viewsets.ModelViewSet):
     queryset = Peca.objects.all()
     serializer_class = PecaSerializer
-    permission_classes = [ApiAccessPermission, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthenticationDefault]
