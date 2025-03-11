@@ -20,7 +20,7 @@ class AuthenticationJwt(viewsets.ViewSet):
     def create(self, request):
         """
         Endpoint para autenticação e geração de JWT.
-        """        
+        """
         username = request.data.get("username")
         password = request.data.get("password")
 
@@ -49,7 +49,7 @@ class AuthenticationJwt(viewsets.ViewSet):
                 value=access_token,
                 httponly=True,
                 secure=True,
-                samesite="None", # "Strict"
+                samesite="None",  # "Strict"
                 max_age=3600,  # 1 hora de expiração
             )
             res.set_cookie(
@@ -57,7 +57,7 @@ class AuthenticationJwt(viewsets.ViewSet):
                 value=refresh_token,
                 httponly=True,
                 secure=True,
-                samesite="None", # "Strict"
+                samesite="None",  # "Strict"
                 max_age=3600 * 24,  # 1 dia de expiração
             )
 
@@ -185,6 +185,7 @@ class AuthLogOut(viewsets.ViewSet):
             return response
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CheckAuthViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
