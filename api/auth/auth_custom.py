@@ -1,6 +1,8 @@
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 
+"""Classe de Autenticação JWT personalizada"""
+
 class JWTAuthenticationDefault(JWTAuthentication):
     def authenticate(self, request):
         # Tenta pegar o token no cookie 'access_token'

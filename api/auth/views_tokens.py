@@ -8,7 +8,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import viewsets, status
-
+from api.auth.auth_custom import JWTAuthenticationDefault
 
 """ViewSet que cuida da criação de tokens JWT"""
 
@@ -35,7 +35,7 @@ class AuthenticationJwt(viewsets.ViewSet):
             if not user.check_password(password):
                 raise AuthenticationFailed("Invalid credentials.")
         except User.DoesNotExist:
-            raise AuthenticationFailed("User not found.")
+            raise AuthenticationFailed("Invalid credentials.")
 
         # Geração do token
         try:
@@ -185,3 +185,10 @@ class AuthLogOut(viewsets.ViewSet):
             return response
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class CheckAuthViewSet(viewsets.ViewSet):
+    permission_classes = [AllowAny]
+    authentication_classes = [JWTAuthenticationDefault]
+
+    def list(self, request):
+        return Response({"message": "Is Authenticated"}, status=status.HTTP_200_OK)
