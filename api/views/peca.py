@@ -1,6 +1,7 @@
 from api.auth.auth_custom import JWTAuthenticationDefault
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 
 
 from ..serializers.serializer import PecaSerializer
@@ -16,3 +17,9 @@ class PecaViewSet(viewsets.ModelViewSet):
     serializer_class = PecaSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthenticationDefault]
+
+    def destroy(self, request, pk):
+        return Response(
+            {"message": "produto deletado com sucesso.", "id": pk},
+            status=status.HTTP_200_OK,
+        )

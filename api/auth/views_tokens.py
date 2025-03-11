@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -67,10 +67,10 @@ class AuthenticationJwt(viewsets.ViewSet):
 
 
 class AuthJwtRefreshToken(viewsets.ViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def create(self, request):
-        refresh_token = request.data.get("refreshtoken")
+        refresh_token = request.COOKIES.get("refresh_token")
 
         if not refresh_token:
             return Response(
@@ -156,31 +156,45 @@ class AuthRegister(viewsets.ViewSet):
 
 
 class AuthLogOut(viewsets.ViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def create(self, request):
         try:
-            refresh_token = request.data.get("refreshtoken")
+            refresh_token = request.COOKIES.get("refresh_token")
 
             if not refresh_token:
                 return Response(
-                    {"detail": "Refresh token é obrigatório."},
+                    {"detail": "token é obrigatório."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            token = RefreshToken(refresh_token)
+            token_r = RefreshToken(refresh_token)
 
-            token.check_blacklist()
+            token_r.check_blacklist()
 
-            token.blacklist()
+            token_r.blacklist()
 
             response = Response(
-                {"detail": "Logout realizado com sucesso."},
+                {"detail": "Logout realizado com sucesso.", "req": request.COOKIES},
                 status=status.HTTP_200_OK,
             )
 
-            response.delete_cookie("access_token")
-            response.delete_cookie("refresh_token")
+            response.set_cookie(
+                key="access_token",
+                value="",
+                httponly=True,
+                secure=True,
+                samesite="None",  # "Strict"
+                max_age=1,
+            )
+            response.set_cookie(
+                key="refresh_token",
+                value="",
+                httponly=True,
+                secure=True,
+                samesite="None",  # "Strict"
+                max_age=1,
+            )
 
             return response
         except Exception as e:
@@ -188,7 +202,7 @@ class AuthLogOut(viewsets.ViewSet):
 
 
 class CheckAuthViewSet(viewsets.ViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthenticationDefault]
 
     def list(self, request):
