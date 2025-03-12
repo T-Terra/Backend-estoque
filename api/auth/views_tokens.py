@@ -4,12 +4,13 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import viewsets, status
 from api.auth.auth_custom import JWTAuthenticationDefault
+from datetime import datetime
 
 """ViewSet que cuida da criação de tokens JWT"""
 
@@ -70,9 +71,10 @@ class AuthenticationJwt(viewsets.ViewSet):
 class AuthJwtRefreshToken(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
-    def create(self, request):
+    def list(self, request):
+        access_token = request.COOKIES.get("access_token")
         refresh_token = request.COOKIES.get("refresh_token")
-
+        
         if not refresh_token:
             return Response(
                 {"datail": "refresh token is required."},
@@ -80,38 +82,68 @@ class AuthJwtRefreshToken(viewsets.ViewSet):
             )
 
         try:
+            # Decodifica os tokens
             old_refresh = RefreshToken(refresh_token)
 
-            user_id = old_refresh.payload.get("user_id")
+            old_access = AccessToken(access_token)
 
-            if not user_id:
-                return Response(
-                    {"detail": "Invalid token"},
-                    status=status.HTTP_400_BAD_REQUEST,
+            # Pega o timestamp de expiração do access token
+            exp_timestamp = old_access['exp']
+
+            exp_datetime = datetime.fromtimestamp(exp_timestamp)
+
+            date_now = datetime.now()
+
+            if exp_datetime < date_now:
+                user_id = old_refresh.payload.get("user_id")
+
+                if not user_id:
+                    return Response(
+                        {"detail": "Invalid token"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                try:
+                    user = User.objects.get(id=user_id)
+                except User.DoesNotExist:
+                    return Response(
+                        {"detail": "User not found"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                new_token = RefreshToken.for_user(user)
+
+                old_refresh.blacklist()
+
+                res = Response(
+                    {
+                        "message": "New tokens updated."
+                    },
+                    status=status.HTTP_200_OK,
                 )
 
-            try:
-                user = User.objects.get(id=user_id)
-            except User.DoesNotExist:
-                return Response(
-                    {"detail": "User not found"},
-                    status=status.HTTP_400_BAD_REQUEST,
+                res.set_cookie(
+                    key="access_token",
+                    value=str(new_token.access_token),
+                    httponly=True,
+                    secure=True,
+                    samesite="None",  # "Strict"
+                    max_age=3600,  # 1 hora de expiração
+                )
+                res.set_cookie(
+                    key="refresh_token",
+                    value=new_token,
+                    httponly=True,
+                    secure=True,
+                    samesite="None",  # "Strict"
+                    max_age=3600 * 24,  # 1 dia de expiração
                 )
 
-            new_token = RefreshToken.for_user(user)
-
-            # Revoga o Refreshtoken antigo
-            old_refresh.blacklist()
-
-            return Response(
-                {
-                    "access": str(new_token.access_token),
-                    "refresh": str(new_token),
-                },
-                status=status.HTTP_200_OK,
-            )
+                return res
+            else:
+                return Response({"message": "Token is valid.", "timestamp": {"token": exp_datetime, "now": date_now.strftime("%Y-%m-%dT%H:%M:%S")}}, status=status.HTTP_200_OK)
         except TokenError as e:
-            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AuthRegister(viewsets.ViewSet):
