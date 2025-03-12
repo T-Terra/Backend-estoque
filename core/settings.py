@@ -34,7 +34,8 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "http://localhost:5173",  # Se estiver rodando React localmente
     "http://127.0.0.1:5173",
-    "https://frontend-estoque-delta.vercel.app"
+    "https://frontend-estoque-delta.vercel.app",
+    "https://backend-estoque-end7.onrender.com"
 ]
 
 APPEND_SLASH = False
@@ -42,7 +43,8 @@ APPEND_SLASH = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Se estiver rodando React localmente
     "http://127.0.0.1:5173",
-    "https://frontend-estoque-delta.vercel.app"
+    "https://frontend-estoque-delta.vercel.app",
+    "https://backend-estoque-end7.onrender.com"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
