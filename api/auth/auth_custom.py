@@ -1,5 +1,6 @@
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.exceptions import AuthenticationFailed
+from ..models.jwt_access_token import JwtAccessToken
 
 """Classe de Autenticação JWT personalizada"""
 
@@ -9,8 +10,13 @@ class JWTAuthenticationDefault(JWTAuthentication):
         # Tenta pegar o token no cookie 'access_token'
         token = request.COOKIES.get("access_token")
 
+        get_token = JwtAccessToken.objects.filter(access_token=token)
+
         if not token:
             raise AuthenticationFailed("Authentication credentials were not provided.")
+
+        if get_token.first() != None:
+            raise AuthenticationFailed("Token expired.")
 
         try:
             # Valida o token

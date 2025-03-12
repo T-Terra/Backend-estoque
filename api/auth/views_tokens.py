@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from ..models.jwt_access_token import JwtAccessToken
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
@@ -160,6 +161,7 @@ class AuthLogOut(viewsets.ViewSet):
 
     def create(self, request):
         try:
+            access_token = request.COOKIES.get("access_token")
             refresh_token = request.COOKIES.get("refresh_token")
 
             if not refresh_token:
@@ -168,6 +170,11 @@ class AuthLogOut(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+            getToken = JwtAccessToken.objects.filter(access_token=access_token)
+
+            if getToken.first() == None:
+                JwtAccessToken.objects.create(access_token=access_token).save()
+
             token_r = RefreshToken(refresh_token)
 
             token_r.check_blacklist()
@@ -175,7 +182,7 @@ class AuthLogOut(viewsets.ViewSet):
             token_r.blacklist()
 
             response = Response(
-                {"detail": "Logout realizado com sucesso.", "req": request.COOKIES},
+                {"detail": "Logout realizado com sucesso."},
                 status=status.HTTP_200_OK,
             )
 
