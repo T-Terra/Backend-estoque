@@ -31,7 +31,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "localhost",  # Se estiver rodando React localmente
+    "127.0.0.1",
+    "frontend-estoque-delta.vercel.app",
+    "backend-estoque-end7.onrender.com"
+]
 
 APPEND_SLASH = False
 
