@@ -105,9 +105,13 @@ WSGI_APPLICATION = "core.wsgi.application"
 #     }
 # }
 
-data_base_host = os.environ.get("DB_HOST")
+database_host = os.environ.get("DB_HOST")
+
+if not database_host:
+    raise ValueError("DATABASE_URL não foi encontrada no ambiente!")
+
 DATABASES = {
-    "default": dj_database_url.parse(data_base_host)
+    "default": dj_database_url.parse(database_host)
 }
 
 
