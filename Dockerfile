@@ -11,7 +11,8 @@ COPY . /
 RUN pip install poetry
 
 # Instalar dependências do projeto
-RUN poetry install --no-root
+RUN export $(grep -v '^#' /etc/secrets/.env | xargs) && \
+    poetry install --no-root
 
 RUN poetry run python manage.py migrate
 
