@@ -1,5 +1,5 @@
 from django.urls import path, re_path, include
-from .views import index
+from .views.index import index
 from .views.peca import PecaViewSet
 from .auth.views_tokens import (
     AuthenticationJwt,
