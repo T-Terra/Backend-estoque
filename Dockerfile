@@ -10,11 +10,12 @@ COPY . /
 # Instalar Poetry
 RUN pip install poetry
 
-RUN poetry run python manage.py collectstatic --noinput
 
 # Instalar dependências do projeto
 RUN export $(grep -v '^#' .env | xargs) && \
-    poetry install --no-root
+poetry install --no-root
+
+RUN poetry run python manage.py collectstatic --noinput
 
 RUN poetry run python manage.py migrate
 
