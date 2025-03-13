@@ -41,10 +41,7 @@ ALLOWED_HOSTS = [
 APPEND_SLASH = False
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Se estiver rodando React localmente
-    "http://127.0.0.1:5173",
-    "https://frontend-estoque-delta.vercel.app",
-    "https://backend-estoque-end7.onrender.com"
+    "https://frontend-estoque-delta.vercel.app"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -175,6 +172,12 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     # 'SIGNING_KEY': 'seu_segredo_super_secreto',
     "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_COOKIE": "access_token",
+    "AUTH_COOKIE_REFRESH": "refresh_token",
+    "AUTH_COOKIE_SECURE": True,
+    "AUTH_COOKIE_HTTP_ONLY": True,
+    "AUTH_COOKIE_PATH": "/",
+    "AUTH_COOKIE_SAMESITE": "None", 
 }
 
 
