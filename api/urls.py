@@ -1,3 +1,5 @@
+from django.urls import path, re_path, include
+from .views import index
 from .views.peca import PecaViewSet
 from .auth.views_tokens import (
     AuthenticationJwt,
@@ -16,4 +18,7 @@ router.register(r"api/logout", AuthLogOut, basename="logout")
 router.register(r"api/refreshtoken", AuthJwtRefreshToken, basename="refreshtoken")
 router.register(r"api/authcheck", CheckAuthViewSet, basename="authcheck")
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('', include(router.urls)),
+    re_path(r'^.*$', index),
+]

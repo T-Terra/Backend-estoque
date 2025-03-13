@@ -200,6 +200,10 @@ STATIC_URL = "static/"
 
 STATIC_ROOT = "static/"
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Caminho onde o conteúdo do build do React será colocado
+]
+
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
