@@ -10,7 +10,7 @@ COPY . /
 # Instalar Poetry
 RUN pip install poetry
 
-RUN poetry run python manage.py collectstatic
+RUN poetry run python manage.py collectstatic --noinput
 
 # Instalar dependências do projeto
 RUN export $(grep -v '^#' .env | xargs) && \
