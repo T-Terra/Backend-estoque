@@ -44,6 +44,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://frontend-estoque-delta.vercel.app"
 ]
 
+if DEBUG:
+    CORS_ALLOWED_ORIGINS.append("http://localhost:5173")
+
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_COOKIE_HTTPONLY = True
