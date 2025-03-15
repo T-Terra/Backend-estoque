@@ -18,6 +18,12 @@ class PecaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthenticationDefault]
 
+
+
+class PecaViewsetDelete(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthenticationDefault]
+    
     def destroy(self, request, pk):
         return Response(
             {"message": "produto deletado com sucesso.", "id": pk},
