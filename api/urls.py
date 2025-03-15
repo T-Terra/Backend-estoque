@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
 from .views.index import index
-from .views.peca import PecaViewSet, PecaViewsetDelete
+from .views.peca import PecaViewSet
 from .auth.views_tokens import (
     AuthenticationJwt,
     AuthJwtRefreshToken,
@@ -12,7 +12,6 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r"api/pecas", PecaViewSet)
-router.register(r"api/peca/delete", PecaViewsetDelete, basename="delete")
 router.register(r"api/login", AuthenticationJwt, basename="login")
 router.register(r"api/register", AuthRegister, basename="register")
 router.register(r"api/logout", AuthLogOut, basename="logout")
