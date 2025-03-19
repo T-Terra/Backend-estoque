@@ -12,6 +12,7 @@ Este é o backend de um sistema de cadastro de peças automotivas, desenvolvido 
 - **Django CORS Headers** (4.7.0) - Permissão de requisições Cross-Origin
 - **DJ Database URL** (2.3.0) - Configuração do banco via URL
 - **WhiteNoise** (6.9.0) - Serviço de arquivos estáticos
+- [Frontend do projeto](https://github.com/T-Terra/Frontend-estoque)
 
 ## 📌 Instalação
 
