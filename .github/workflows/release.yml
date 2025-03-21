@@ -3,7 +3,8 @@ name: Semantic Release
 on:
   push:
     branches:
-      - "*"
+      - master
+      - dev
 
 jobs:
   release:
@@ -39,11 +40,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_REPO }}
         run: semantic-release
-
-      # - name: Atualizar versão no `pyproject.toml`
-      #   run: |
-      #     VERSION=$(git describe --tags --abbrev=0)
-      #     poetry version ${VERSION#v}
 
       - name: Criar commit com nova versão
         run: |
