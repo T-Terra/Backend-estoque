@@ -14,7 +14,7 @@ def test_api_route_logout(client):
     test_api_route_login(client)
 
     response = client.post('/api/logout/')
-    assert response.status_code == 500
+    assert response.status_code == 200
 
 @pytest.mark.django_db
 def test_api_route_pecas_list(client):
