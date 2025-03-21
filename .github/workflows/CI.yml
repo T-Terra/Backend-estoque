@@ -51,7 +51,7 @@ jobs:
       - name: Run migrations
         env:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB_CI }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER_CI }
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER_CI }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_CI }}
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_CI }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT_CI }}
@@ -60,7 +60,7 @@ jobs:
       - name: Run tests with pytest
         env:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB_CI }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER_CI }
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER_CI }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_CI }}
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_CI }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT_CI }}
