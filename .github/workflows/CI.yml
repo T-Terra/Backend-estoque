@@ -41,12 +41,7 @@ jobs:
 
       - name: Install dependencies with Poetry
         run: poetry install --with dev --no-root
-      
-      - name: Run migrations
-        env:
-          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
-        run: poetry run python manage.py migrate
-      
+            
       - name: Set up environment variables
         env:
           DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
@@ -54,6 +49,13 @@ jobs:
           echo "SIGNING_KEY=${{ secrets.SIGNING_KEY }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "DEBUG=ci" >> .env
+      
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+        run: poetry run python manage.py migrate
 
       - name: Run tests with pytest
+        env:
+          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
         run: poetry run pytest ./api/  # Executa os testes com pytest
