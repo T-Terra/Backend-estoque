@@ -31,18 +31,23 @@ jobs:
           python-version: "3.12"
       - run: pip install poetry
 
-      - name: Instalar semantic-release
-        run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+      # Instalar o Standard Version
+      - name: Instalar Standard Version
+        run: npm install --save-dev standard-version
 
-      - name: Calcular nova versão e criar release
+      # Rodar o Standard Version para gerar a nova versão e changelog
+      - name: Gerar nova versão e changelog
+        run: |
+          npx standard-version
+      
+      # Criar commit com nova versão e changelog
+      - name: Commit e push da nova versão e changelog
+        run: |
+          git add .
+          git commit -m "chore(release): Bump version to $(git describe --tags --abbrev=0)"
+          git push --follow-tags origin HEAD
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_REPO }}
-        run: semantic-release
-
-      # - name: Atualizar versão no `pyproject.toml`
-      #   run: |
-      #     VERSION=$(git describe --tags --abbrev=0)
-      #     poetry version ${VERSION#v}
 
       - name: Criar commit com nova versão
         run: |
