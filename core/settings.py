@@ -119,30 +119,33 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if DEBUG == True:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME"),
-            "USER": os.getenv("DB_USER"),
-            "PASSWORD": os.getenv("DB_PASSWORD"),
-            "HOST": os.getenv("DB_HOST"),
-            "PORT": os.getenv("DB_PORT"),
-        }
-    }
-elif DEBUG != False:
+CI = os.getenv("CI", "ci").lower() == "ci"
+
+if CI == "ci":
     DATABASES = {
         "default": dj_database_url.parse("postgres://test_user:test_password@localhost:5432/test_db")
     }
 else:
-    database_host = os.environ.get("DB_HOST")
+    if DEBUG == True:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("DB_NAME"),
+                "USER": os.getenv("DB_USER"),
+                "PASSWORD": os.getenv("DB_PASSWORD"),
+                "HOST": os.getenv("DB_HOST"),
+                "PORT": os.getenv("DB_PORT"),
+            }
+        }
+    else:
+        database_host = os.environ.get("DB_HOST")
 
-    if not database_host:
-        raise ValueError("DATABASE_URL não foi encontrada no ambiente!")
+        if not database_host:
+            raise ValueError("DATABASE_URL não foi encontrada no ambiente!")
 
-    DATABASES = {
-        "default": dj_database_url.parse(database_host)
-    }
+        DATABASES = {
+            "default": dj_database_url.parse(database_host)
+        }
 
 
 # Password validation

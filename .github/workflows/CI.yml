@@ -48,7 +48,7 @@ jobs:
         run: |
           echo "SIGNING_KEY=${{ secrets.SIGNING_KEY }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "DEBUG=ci" >> .env
+          echo "CI=${{ secrets.CI }}" >> .env
       
       - name: Run migrations
         env:
