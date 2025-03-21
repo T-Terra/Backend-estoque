@@ -1,0 +1,30 @@
+name: Run Tests with Poetry and Pytest
+
+on:
+  push:
+    branches:
+      - master  # Ou a branch que você deseja, por exemplo, 'develop'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Usando Ubuntu como ambiente
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12  # Defina a versão do Python que você está usando
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH  # Adicionando Poetry ao PATH
+
+      - name: Install dependencies with Poetry
+        run: poetry install --with dev
+
+      - name: Run tests with pytest
+        run: poetry run pytest ./api/  # Executa os testes com pytest
