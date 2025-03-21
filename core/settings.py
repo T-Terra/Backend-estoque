@@ -15,7 +15,6 @@ import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
-import secrets
 
 load_dotenv(override=True)
 
@@ -174,7 +173,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,  # Gera um novo Refresh Token a cada renovação
     "BLACKLIST_AFTER_ROTATION": True,  # Adiciona o token antigo à blacklist
     "ALGORITHM": "HS256",
-    'SIGNING_KEY': secrets.token_hex(128),
+    'SIGNING_KEY': os.getenv("SIGNING_KEY"),
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_COOKIE": "access_token",
     "AUTH_COOKIE_REFRESH": "refresh_token",
