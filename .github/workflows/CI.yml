@@ -1,4 +1,5 @@
 name: Run Tests with Poetry and Pytest
+run-name: Run Tests
 
 on:
   workflow_dispatch:

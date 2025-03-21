@@ -36,7 +36,7 @@ jobs:
 
       - name: Calcular nova versão e criar release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN_REPO }}
         run: semantic-release
 
       - name: Atualizar versão no `pyproject.toml`
