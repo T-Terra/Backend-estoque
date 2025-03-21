@@ -10,6 +10,21 @@ jobs:
   test:
     runs-on: ubuntu-latest  # Usando Ubuntu como ambiente
 
+    services:
+      postgres:
+        image: postgres:17  # Defina a versão do PostgreSQL desejada
+        env:
+          POSTGRES_DB: test_db  # Nome do banco de dados
+          POSTGRES_USER: test_user  # Usuário do banco de dados
+          POSTGRES_PASSWORD: test_password  # Senha do banco de dados
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test_user -d test_db"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -27,12 +42,18 @@ jobs:
       - name: Install dependencies with Poetry
         run: poetry install --with dev --no-root
       
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+        run: poetry run python manage.py migrate
+      
       - name: Set up environment variables
+        env:
+          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
         run: |
           echo "SIGNING_KEY=${{ secrets.SIGNING_KEY }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-          echo "DEBUG=${{ secrets.DEBUG }}" >> .env
+          echo "DEBUG=ci" >> .env
 
       - name: Run tests with pytest
         run: poetry run pytest ./api/  # Executa os testes com pytest

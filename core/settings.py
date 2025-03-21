@@ -130,6 +130,10 @@ if DEBUG == True:
             "PORT": os.getenv("DB_PORT"),
         }
     }
+elif DEBUG != False:
+    DATABASES = {
+        "default": dj_database_url.parse("postgres://test_user:test_password@localhost:5432/test_db")
+    }
 else:
     database_host = os.environ.get("DB_HOST")
 
