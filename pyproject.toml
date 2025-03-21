@@ -21,10 +21,21 @@ dependencies = [
 
 [tool.poetry]
 
+[tool.poetry.group.dev]
+optional = true
+
 [tool.poetry.group.dev.dependencies]
 mkdocs = "^1.6.1"
 pip-audit = "^2.8.0"
 black = "^25.1.0"
+pytest = "^8.3.5"
+pytest-django = "^4.10.0"
+
+# -- Example FILE: pyproject.toml
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+# -- recommended but optional:
+python_files = ["test_*.py", "*_test.py", "testing/python/*.py", "tests/*.py"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
