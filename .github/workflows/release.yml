@@ -19,6 +19,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN_REPO }}@github.com/T-Terra/Backend-estoque.git
 
       - name: Instalar Node.js (para semantic-release)
         uses: actions/setup-node@v4
