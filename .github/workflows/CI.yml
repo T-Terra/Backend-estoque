@@ -43,24 +43,27 @@ jobs:
         run: poetry install --with dev --no-root
                   
       - name: Set up environment variables
-        env:
-          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
         run: |
           echo "SIGNING_KEY=${{ secrets.SIGNING_KEY }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "CI=${{ secrets.CI }}" >> .env
-          echo "POSTGRES_DB_CI=${{ secrets.POSTGRES_DB_CI }}" >> .env
-          echo "POSTGRES_USER_CI=${{ secrets.POSTGRES_USER_CI }}" >> .env
-          echo "POSTGRES_PASSWORD_CI=${{ secrets.POSTGRES_PASSWORD_CI }}" >> .env
-          echo "POSTGRES_HOST_CI=${{ secrets.POSTGRES_HOST_CI }}" >> .env
-          echo "POSTGRES_PORT_CI=${{ secrets.POSTGRES_PORT_CI }}" >> .env
       
       - name: Run migrations
         env:
-          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB_CI }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER_CI }
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_CI }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_CI }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT_CI }}
         run: poetry run python manage.py migrate
 
       - name: Run tests with pytest
         env:
-          DATABASE_URL: postgres://test_user:test_password@localhost:5432/test_db
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB_CI }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER_CI }
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_CI }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_CI }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT_CI }}
         run: poetry run pytest ./api/  # Executa os testes com pytest
