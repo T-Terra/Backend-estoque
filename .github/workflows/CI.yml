@@ -30,6 +30,7 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "SIGNING_KEY=${{ secrets.SIGNING_KEY }}" >> .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
 
       - name: Run tests with pytest
         run: poetry run pytest ./api/  # Executa os testes com pytest
