@@ -119,40 +119,41 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-CI = os.getenv("CI", "ci").lower() == "ci"
+CI = os.getenv("CI", "True").lower() == "true"
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'test_db'),
-        'USER': os.getenv('POSTGRES_USER', 'test_user'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'test_password'),
-        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
-        'PORT': os.getenv('POSTGRES_PORT', 5432),
-    }
-}
-# if CI == "ci":    
-# else:
-#     if DEBUG == True:
-#         DATABASES = {
-#             "default": {
-#                 "ENGINE": "django.db.backends.postgresql",
-#                 "NAME": os.getenv("DB_NAME"),
-#                 "USER": os.getenv("DB_USER"),
-#                 "PASSWORD": os.getenv("DB_PASSWORD"),
-#                 "HOST": os.getenv("DB_HOST"),
-#                 "PORT": os.getenv("DB_PORT"),
-#             }
-#         }
-#     else:
-#         database_host = os.environ.get("DB_HOST")
 
-#         if not database_host:
-#             raise ValueError("DATABASE_URL não foi encontrada no ambiente!")
+if CI == True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB'),
+            'USER': os.getenv('POSTGRES_USER'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv('POSTGRES_HOST'),
+            'PORT': os.getenv('POSTGRES_PORT'),  # Define UTF-8
+        }
+    }    
+else:
+    if DEBUG == True:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("DB_NAME"),
+                "USER": os.getenv("DB_USER"),
+                "PASSWORD": os.getenv("DB_PASSWORD"),
+                "HOST": os.getenv("DB_HOST"),
+                "PORT": os.getenv("DB_PORT"),
+            }
+        }
+    else:
+        database_host = os.environ.get("DB_HOST")
 
-#         DATABASES = {
-#             "default": dj_database_url.parse(database_host)
-#         }
+        if not database_host:
+            raise ValueError("DATABASE_URL não foi encontrada no ambiente!")
+
+        DATABASES = {
+            "default": dj_database_url.parse(database_host)
+        }
 
 
 # Password validation
