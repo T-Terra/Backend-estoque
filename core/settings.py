@@ -122,6 +122,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 CI = os.getenv("CI", "ci").lower() == "ci"
 
 if CI == "ci":
+    database_host = os.getenv('POSTGRES_HOST')
+
+    if not database_host:
+        raise ValueError("POSTGRES_HOST não foi encontrada no ambiente!")
+    
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
