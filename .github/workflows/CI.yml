@@ -59,11 +59,11 @@ jobs:
       
       - name: Debug das variáveis de ambiente
         run: |
-          echo "POSTGRES_DB=${POSTGRES_DB}"
-          echo "POSTGRES_USER=${POSTGRES_USER}"
-          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
-          echo "POSTGRES_HOST=${POSTGRES_HOST}"
-          echo "POSTGRES_PORT=${POSTGRES_PORT}"
+          echo "DB: $POSTGRES_DB"
+          echo "USER: $POSTGRES_USER"
+          echo "PASSWORD: $POSTGRES_PASSWORD"
+          echo "HOST: $POSTGRES_HOST"
+          echo "PORT: $POSTGRES_PORT"
       
       - name: Run migrations
         run: poetry run python manage.py migrate
