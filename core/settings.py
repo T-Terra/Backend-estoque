@@ -15,6 +15,7 @@ import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
+import secrets
 
 load_dotenv(override=True)
 
@@ -173,7 +174,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,  # Gera um novo Refresh Token a cada renovação
     "BLACKLIST_AFTER_ROTATION": True,  # Adiciona o token antigo à blacklist
     "ALGORITHM": "HS256",
-    # 'SIGNING_KEY': 'seu_segredo_super_secreto',
+    'SIGNING_KEY': secrets.token_hex(128),
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_COOKIE": "access_token",
     "AUTH_COOKIE_REFRESH": "refresh_token",
@@ -183,6 +184,7 @@ SIMPLE_JWT = {
     "AUTH_COOKIE_SAMESITE": "None", 
 }
 
+print(SIMPLE_JWT["SIGNING_KEY"])
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
