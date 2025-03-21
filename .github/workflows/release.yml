@@ -38,7 +38,9 @@ jobs:
       - name: Calcular nova versão e criar release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_REPO }}
-        run: semantic-release
+          SEMANTIC_RELEASE_BRANCHES: '["master", "dev"]'  # Configurando as branches no GitHub Actions
+          SEMANTIC_RELEASE_PLUGINS: '@semantic-release/commit-analyzer,@semantic-release/release-notes-generator,@semantic-release/changelog,@semantic-release/github,@semantic-release/git' 
+        run: semantic-release --branches "$SEMANTIC_RELEASE_BRANCHES" --plugins "$SEMANTIC_RELEASE_PLUGINS"
 
       # - name: Atualizar versão no `pyproject.toml`
       #   run: |
