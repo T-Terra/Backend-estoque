@@ -123,7 +123,14 @@ CI = os.getenv("CI", "ci").lower() == "ci"
 
 if CI == "ci":
     DATABASES = {
-        "default": dj_database_url.parse("postgres://test_user:test_password@localhost:5432/test_db")
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB'),
+            'USER': os.getenv('POSTGRES_USER'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv('POSTGRES_HOST'),
+            'PORT': os.getenv('POSTGRES_PORT'),
+        }
     }
 else:
     if DEBUG == True:
