@@ -202,8 +202,6 @@ SIMPLE_JWT = {
     "AUTH_COOKIE_SAMESITE": "None", 
 }
 
-print(SIMPLE_JWT["SIGNING_KEY"])
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
