@@ -55,7 +55,7 @@ jobs:
       
       - name: Testar conexão direta ao PostgreSQL
         run: |
-          PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c "SELECT 1;"
+          PGPASSWORD=${POSTGRES_PASSWORD} psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c "SELECT 1;"
       
       - name: Debug das variáveis de ambiente
         run: |
