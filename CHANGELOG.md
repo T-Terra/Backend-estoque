@@ -31,3 +31,5 @@
 - BREAKING CHANGE: version stable (5e7449f)
 ## v1.1.0
 - feat: add rework release (17ac9b0)
+## v1.1.1
+- fix: script remove v in prefix to news tags (c48f2fa)
