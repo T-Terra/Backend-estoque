@@ -5,3 +5,5 @@
 - feat: new version (bc1cc94)
 ## v0.2.1
 - fix: create release end fix ci (0786d82)
+## v0.2.2
+- fix: add setup to gh (0f3cae6)
