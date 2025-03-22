@@ -13,3 +13,5 @@
 - fix: gh token (0852650)
 ## v0.2.5
 - fix: login gh (895be4e)
+## vv0.2.6
+- fix: v in tag (75f5e66)
