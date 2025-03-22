@@ -45,6 +45,11 @@ echo "Atualizando CHANGELOG.md..."
 echo -e "\n## $NEW_TAG" >> CHANGELOG.md
 git log "$LAST_TAG"..HEAD --pretty=format:"- %s (%h)" --grep="^feat:\|^fix:\|^BREAKING CHANGE\|^chore:" >> CHANGELOG.md
 
+
+CHANGELOG=$(git log "$LAST_TAG"..HEAD --pretty=format:"- %s (%h)" --grep="^feat:\|^fix:\|^BREAKING CHANGE\|^chore:")
+
+gh release create $(echo $NEW_TAG) --title "Release $(echo $NEW_TAG)" --notes "$CHANGELOG"
+
 # Commit e push do changelog atualizado
 git add CHANGELOG.md
 git commit -m "docs: Atualiza CHANGELOG para versão $NEW_TAG"

@@ -30,21 +30,20 @@ jobs:
       - name: Tornar o script executável
         run: chmod +x ./scripts/release.sh 
 
+      # Configurar o GitHub CLI com o token de autenticação
+      - name: Configurar GitHub CLI
+        run: gh auth login --with-token <<< "${{ secrets.TOKEN_REPO }}"
+
       - name: Executar o script de release
         env:
           TOKEN_REPO: ${{ secrets.TOKEN_REPO }}
         run: ./scripts/release.sh      
-
-      # Configurar o GitHub CLI com o token de autenticação
-      - name: Configurar GitHub CLI
-        run: gh auth login --with-token <<< "${{ secrets.TOKEN_REPO }}"
 
       - name: Criar commit com nova versão
         env:
           GH_TOKEN:: ${{ secrets.TOKEN_REPO }}
         run: |
           VERSION=$(git describe --tags --abbrev=0)
-          gh release create $(echo $VERSION) --title "Release $(echo $VERSION)" --notes "Notas da release"
           poetry version ${VERSION#v}
           git add pyproject.toml
           git commit -m "chore(release): Bump version to $(poetry version -s)"
