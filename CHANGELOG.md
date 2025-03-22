@@ -18,3 +18,5 @@
 ## v0.2.6
 - fix: version release (5f6638e)
 - fix: v in tag (75f5e66)
+## v0.3.0
+- feat: add BREAKING CHANGE in project (afe1635)
