@@ -27,12 +27,6 @@ jobs:
           python-version: "3.12"
       - run: pip install poetry
 
-      - name: Release Setup
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')  # Garante que só é executado para tags
-        env:
-          TOKEN_REPO: ${{ secrets.TOKEN_REPO }}
-
       - name: Tornar o script executável
         run: chmod +x ./scripts/release.sh 
 
@@ -40,6 +34,10 @@ jobs:
         env:
           TOKEN_REPO: ${{ secrets.TOKEN_REPO }}
         run: ./scripts/release.sh      
+
+      # Configurar o GitHub CLI com o token de autenticação
+      - name: Configurar GitHub CLI
+        run: gh auth login --with-token <<< "${{ secrets.TOKEN_REPO }}"
 
       - name: Criar commit com nova versão
         env:
