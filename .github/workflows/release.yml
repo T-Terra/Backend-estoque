@@ -36,8 +36,11 @@ jobs:
         run: ./scripts/release.sh      
 
       - name: Criar commit com nova versão
+        env:
+          TOKEN_REPO: ${{ secrets.TOKEN_REPO }}
         run: |
           VERSION=$(git describe --tags --abbrev=0)
+          gh release create v$(echo $VERSION) --title "Release $(echo $VERSION)" --notes "Notas da release"
           poetry version ${VERSION#v}
           git add pyproject.toml
           git commit -m "chore(release): Bump version to $(poetry version -s)"
