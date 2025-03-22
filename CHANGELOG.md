@@ -21,3 +21,7 @@
 ## v0.3.0
 - feat: add BREAKING CHANGE in project (afe1635)
 ## 1.0.0
+
+## 1.0.0
+- fix: script relase sh to take chore and Breaking Change (febd813)
+- BREAKING CHANGE: version stable (5e7449f)
