@@ -7,3 +7,5 @@
 - fix: create release end fix ci (0786d82)
 ## v0.2.2
 - fix: add setup to gh (0f3cae6)
+## v0.2.3
+- fix: env setup (1e15112)
