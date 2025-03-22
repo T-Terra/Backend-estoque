@@ -3,9 +3,9 @@ run-name: Run Tests
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master  # Ou a branch que você deseja, por exemplo, 'develop'
+  # push:
+  #   branches:
+  #     - master  # Ou a branch que você deseja, por exemplo, 'develop'
 
 jobs:
   test:
