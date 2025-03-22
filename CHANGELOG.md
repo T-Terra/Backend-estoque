@@ -29,3 +29,5 @@
 - fix: add v in script release for new tags (f0a8b78)
 - fix: script relase sh to take chore and Breaking Change (febd813)
 - BREAKING CHANGE: version stable (5e7449f)
+## v1.1.0
+- feat: add rework release (17ac9b0)
