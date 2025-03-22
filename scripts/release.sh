@@ -43,7 +43,7 @@ git push origin "$NEW_TAG"
 # Gera o changelog separado por tags
 echo "Atualizando CHANGELOG.md..."
 echo -e "\n## $NEW_TAG" >> CHANGELOG.md
-git log "$LAST_TAG"..HEAD --pretty=format:"- %s (%h)" --grep="^feat:\|^fix:" >> CHANGELOG.md
+git log "$LAST_TAG"..HEAD --pretty=format:"- %s (%h)" --grep="^feat:\|^fix:\|^BREAKING CHANGE\|^chore:" >> CHANGELOG.md
 
 # Commit e push do changelog atualizado
 git add CHANGELOG.md
