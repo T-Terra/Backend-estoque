@@ -32,7 +32,7 @@ jobs:
 
       - name: Executar o script de release
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_REPO }}
+          TOKEN_REPO: ${{ secrets.TOKEN_REPO }}
         run: ./scripts/release.sh      
 
       - name: Criar commit com nova versão
