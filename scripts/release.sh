@@ -36,7 +36,7 @@ fi
 NEW_TAG="$MAJOR.$MINOR.$PATCH"
 echo "Nova tag: $NEW_TAG"
 
-# Cria a nova tag
+
 git tag "$NEW_TAG"
 git push origin "$NEW_TAG"
 
