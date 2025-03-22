@@ -37,8 +37,8 @@ NEW_TAG="$MAJOR.$MINOR.$PATCH"
 echo "Nova tag: $NEW_TAG"
 
 
-git tag "$NEW_TAG"
-git push origin "$NEW_TAG"
+git tag "v$NEW_TAG"
+git push origin "v$NEW_TAG"
 
 # Gera o changelog separado por tags
 echo "Atualizando CHANGELOG.md..."
