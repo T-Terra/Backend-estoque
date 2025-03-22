@@ -20,10 +20,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
           git remote set-url origin https://x-access-token:${{ secrets.TOKEN_REPO }}@github.com/T-Terra/Backend-estoque.git
-      - name: Instalar Node.js (para semantic-release)
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
 
       - name: Instalar Python e Poetry
         uses: actions/setup-python@v5
@@ -31,23 +27,13 @@ jobs:
           python-version: "3.12"
       - run: pip install poetry
 
-      # Instalar o Standard Version
-      - name: Instalar Standard Version
-        run: npm install --save-dev standard-version
+      - name: Tornar o script executável
+        run: chmod +x ./scripts/release.sh 
 
-      # Rodar o Standard Version para gerar a nova versão e changelog
-      - name: Gerar nova versão e changelog
-        run: |
-          npx standard-version
-      
-      # Criar commit com nova versão e changelog
-      - name: Commit e push da nova versão e changelog
-        run: |
-          git add .
-          git commit -m "chore(release): Bump version to $(git describe --tags --abbrev=0)"
-          git push --follow-tags origin HEAD
+      - name: Executar o script de release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_REPO }}
+        run: ./scripts/release.sh      
 
       - name: Criar commit com nova versão
         run: |
