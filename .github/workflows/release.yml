@@ -27,6 +27,12 @@ jobs:
           python-version: "3.12"
       - run: pip install poetry
 
+      - name: Release Setup
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')  # Garante que só é executado para tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_REPO }}
+
       - name: Tornar o script executável
         run: chmod +x ./scripts/release.sh 
 
