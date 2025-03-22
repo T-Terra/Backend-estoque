@@ -16,7 +16,7 @@ IFS='.' read -r MAJOR MINOR PATCH <<< "$LAST_TAG"
 # Verifica os commits desde a última tag
 NEW_MAJOR=$(git log "$LAST_TAG"..HEAD --grep="^BREAKING CHANGE" --oneline | wc -l)
 NEW_MINOR=$(git log "$LAST_TAG"..HEAD --grep="^feat:" --oneline | wc -l)
-NEW_PATCH=$(git log "$LAST_TAG"..HEAD --grep="^fix:" --oneline | wc -l)
+NEW_PATCH=$(git log "$LAST_TAG"..HEAD --grep="^fix:\|^chore:" --oneline | wc -l)
 
 # Define a nova versão com base nos commits
 if [[ "$NEW_MAJOR" -gt 0 ]]; then
