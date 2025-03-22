@@ -15,3 +15,6 @@
 - fix: login gh (895be4e)
 ## vv0.2.6
 - fix: v in tag (75f5e66)
+## v0.2.6
+- fix: version release (5f6638e)
+- fix: v in tag (75f5e66)
