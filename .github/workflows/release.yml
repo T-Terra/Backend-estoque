@@ -44,7 +44,7 @@ jobs:
           GH_TOKEN:: ${{ secrets.TOKEN_REPO }}
         run: |
           VERSION=$(git describe --tags --abbrev=0)
-          gh release create v$(echo $VERSION) --title "Release $(echo $VERSION)" --notes "Notas da release"
+          gh release create $(echo $VERSION) --title "Release $(echo $VERSION)" --notes "Notas da release"
           poetry version ${VERSION#v}
           git add pyproject.toml
           git commit -m "chore(release): Bump version to $(poetry version -s)"
